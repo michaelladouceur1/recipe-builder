@@ -93,13 +93,17 @@ def create_recipes():
             recipes[i]['protein'] += multiplier*ingredients[ing]['protein']
 
         recipes[i]['calories'] = recipes[i]['carbs']*4 + recipes[i]['fat']*9 + recipes[i]['protein']*4
+        recipes[i]['calpg'] = recipes[i]['calories']/recipes[i]['quantity']
+        recipes[i]['carbpg'] = recipes[i]['carbs']/recipes[i]['quantity']
+        recipes[i]['fatpg'] = recipes[i]['fat']/recipes[i]['quantity']
+        recipes[i]['proteinpg'] = recipes[i]['protein']/recipes[i]['quantity']
 
 def euclidean_dist():
     for i in range(len(recipes)-1):
-        cal_diff = (recipes[i]['calories']/recipes[i]['quantity']) - (recipes[i+1]['calories']/recipes[i+1]['quantity'])
-        carb_diff = (recipes[i]['carbs']/recipes[i]['quantity']) - (recipes[i+1]['carbs']/recipes[i+1]['quantity'])
-        fat_diff = (recipes[i]['fat']/recipes[i]['quantity']) - (recipes[i+1]['fat']/recipes[i+1]['quantity'])
-        protein_diff = (recipes[i]['protein']/recipes[i]['quantity']) - (recipes[i+1]['protein']/recipes[i+1]['quantity'])
+        cal_diff = (recipes[i]['calpg'] - recipes[i+1]['calpg'])
+        carb_diff = (recipes[i]['carbpg'] - recipes[i+1]['carbpg'])
+        fat_diff = (recipes[i]['fatpg'] - recipes[i+1]['fatpg'])
+        protein_diff = (recipes[i]['proteinpg'] - recipes[i+1]['proteinpg'])
 
         dist = math.sqrt((cal_diff**2) + (carb_diff**2) + (fat_diff**2) + (protein_diff**2))
         print(f'Distance from {i} to {i+1}: {dist}')
@@ -119,4 +123,4 @@ pp = pprint.PrettyPrinter(indent=2)
 pp.pprint(recipes)
 euclidean_dist()
 print('\n')
-dot_prod()
+# dot_prod()

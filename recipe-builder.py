@@ -61,8 +61,15 @@ ingredients = {
     }
 }
 
+
+
+
+
+
+
+
 target = {
-    'calories': 2500,
+    'calories': 3000,
     'carb': 100,
     'fat': 200,
     'protein': 200
@@ -108,30 +115,15 @@ def create_recipes():
         recipes[i]['fatp'] = recipes[i]['fat']/(recipes[i]['carb'] + recipes[i]['fat'] + recipes[i]['protein'])
         recipes[i]['proteinp'] = recipes[i]['protein']/(recipes[i]['carb'] + recipes[i]['fat'] + recipes[i]['protein'])
 
-# def euclidean_dist():
-#     minn = 100
-#     for i in range(len(recipes)):
-#         carb_diff = (recipes[i]['carbp'] - target['carbp'])
-#         fat_diff = (recipes[i]['fatp'] - target['fatp'])
-#         protein_diff = (recipes[i]['proteinp'] - target['proteinp'])
-        
-#         dist = math.sqrt((carb_diff**2) + (fat_diff**2) + (protein_diff**2))
-#         print(f'Distance from Recipe {i} to Target: {dist}')
-
 def euclidean_dist(a,b):
     diff = [(i[0]-i[1])**2 for i in zip(a,b)]
     return sum(diff)**0.5
 
-
-def dot_prod():
-    for i in range(len(recipes)-1):
-        cal = (recipes[i]['calories']/recipes[i]['quantity']) * (recipes[i+1]['calories']/recipes[i+1]['quantity'])
-        carb = (recipes[i]['carb']/recipes[i]['quantity']) * (recipes[i+1]['carb']/recipes[i+1]['quantity'])
-        fat = (recipes[i]['fat']/recipes[i]['quantity']) * (recipes[i+1]['fat']/recipes[i+1]['quantity'])
-        protein = (recipes[i]['protein']/recipes[i]['quantity']) * (recipes[i+1]['protein']/recipes[i+1]['quantity'])
-
-        dot = cal + carb + fat + protein
-        print(f'Dot for {i} and {i+1}: {dot}')
+def equation_solver(*args,answer):
+	a = np.array([*args])
+	b = np.array(answer)
+	x = np.linalg.solve(a,b)
+	return x
 
 create_recipes()
 pp = pprint.PrettyPrinter(indent=2)

@@ -58,36 +58,71 @@ ingredients = {
         'carb': 14,
         'fat': 0.4,
         'protein': 5
+    },
+    'quinoa': {
+        'quantity': 185,
+        'units': 'grams',
+        'carb': 39.4,
+        'fat': 3.55,
+        'protein': 8.14
+    },
+    'tomato': {
+        'quantity': 91,
+        'units': 'grams',
+        'carb': 3.5,
+        'fat': 0.2,
+        'protein': 0.8
+    },
+    'tuna': {
+        'quantity': 100,
+        'units': 'grams',
+        'carb': 0,
+        'fat': 0.8,
+        'protein': 25.5
+    },
+    'salmon': {
+        'quantity': 100,
+        'units': 'grams',
+        'carb': 0,
+        'fat': 13,
+        'protein': 20
+    },
+    'sweet potatoes': {
+        'quantity': 100,
+        'units': 'grams',
+        'carb': 20,
+        'fat': 0.1,
+        'protein': 1.6
     }
+
 }
 
+# PARAMETERS
+recipe_count = 25
+ingredient_min = 1
+ingredient_max = 10
+ingredient_amount_min = 25
+ingredient_amount_max = 100
 
-
-
-
-
-
-
+# SET TARGET MACROS INFO
 target = {
-    'calories': 3000,
-    'carb': 100,
+    'calories': 2280,
+    'meals': 3,
+    'carb': 40,
     'fat': 200,
-    'protein': 200
+    'protein': 80
 }
+
 target['carbp'] = target['carb']/(target['carb'] + target['fat'] + target['protein'])
 target['fatp'] = target['fat']/(target['carb'] + target['fat'] + target['protein'])
 target['proteinp'] = target['protein']/(target['carb'] + target['fat'] + target['protein'])
 
+
+# CREATE RECIPES AND POPULATE INFO
 recipes = {}
 
-def print_ing():
-    for ing in ingredients:
-        print(f'\nIngredient: {ing}')
-        for item in ingredients[ing]:
-            print(f'{item}: {ingredients[ing][item]}')
-
 def create_recipes():
-    for i in range(25):
+    for i in range(recipe_count):
         recipes[i] = {
             'calories': 0,
             'ingredients': [],
@@ -96,10 +131,12 @@ def create_recipes():
             'fat': 0,
             'protein': 0
         }
-        count = random.randint(1,10)
-        for j in range(count):
+
+        ingredient_count = random.randint(ingredient_min,ingredient_max)
+
+        for j in range(ingredient_count):
             ing = random.choice(list(ingredients.keys()))
-            amount = random.randint(25,100)
+            amount = random.randint(ingredient_amount_min,ingredient_amount_max)
             multiplier = amount/ingredients[ing]['quantity']
     
             recipes[i]['ingredients'].append({'name': ing, 'quantity': amount})
@@ -119,25 +156,46 @@ def euclidean_dist(a,b):
     diff = [(i[0]-i[1])**2 for i in zip(a,b)]
     return sum(diff)**0.5
 
-def equation_solver(*args,answer):
-	a = np.array([*args])
-	b = np.array(answer)
-	x = np.linalg.solve(a,b)
-	return x
+def local_min(a,b,error=0.001):
+	for i in range(100):
+		mid = (a+b)/2
+		print(f'Mid {i+1}: {mid}')
+		dist_mid = euclidean_dist([mid*i for i in source], target)
+		dist_mid_p = euclidean_dist([(mid+1)*i for i in source], target)
+		dist_mid_n = euclidean_dist([(mid-1)*i for i in source], target)
+		diff_p = dist_mid_p - dist_mid
+		diff_n = dist_mid_n - dist_mid
+		print(f'Diff Plus: {diff_p}')
+		print(f'Diff Neg: {diff_n}')
+		print(f'Euc Dist: {dist_mid}\n')
+		if abs(diff_p) > error and abs(diff_n) > error:
+			if diff_p < diff_n:
+				a = mid
+			elif diff_p > diff_n:
+				b = mid 
+		else:
+			break
 
-create_recipes()
-pp = pprint.PrettyPrinter(indent=2)
-pp.pprint(recipes)
-for i in range(len(recipes)):
-    dist = euclidean_dist([recipes[i]['carbp'],recipes[i]['fatp'],recipes[i]['proteinp']],
-                    [target['carbp'],target['fatp'],target['proteinp']])
-    print(f'Recipe {i}: {dist}')
-    if i==0:
-        minimum = (i,dist)
-    else:
-        if dist < minimum[1]: 
-            minimum = (i,dist)
+if __name__ == '__main__':
+	
+	create_recipes()
 
-print('\n')
-print(f'Minimum: {minimum}')
-# dot_prod()
+	pp = pprint.PrettyPrinter(indent=2)
+	pp.pprint(recipes)
+
+	dist_sum = 0
+	for i in range(len(recipes)):
+	    dist = euclidean_dist([recipes[i]['carbp'],recipes[i]['fatp'],recipes[i]['proteinp']],
+	                    [target['carbp'],target['fatp'],target['proteinp']])
+	    print(f'Recipe {i}: {dist}')
+	    dist_sum += dist
+	    if i==0:
+	        minimum = (i,dist)
+	    else:
+	        if dist < minimum[1]: 
+	            minimum = (i,dist)
+
+	print('\n')
+	print(f'Distance Average: {dist_sum/recipe_count}')
+	print(f'Minimum: {minimum}')
+	# dot_prod()

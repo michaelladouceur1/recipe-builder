@@ -35,9 +35,9 @@ def equation_solver(*args,answer):
 accur = 20
 
 target = [100,200,200]
-# source = [.08,.25,.12]
+source = [.165,.527,.308]
 # source = [.05,.25,.3]
-source = [(target[0]-accur)/1000,(target[1]-accur)/1000,(target[2]-accur)/1000]
+# source = [(target[0]-accur)/1000,(target[1]-accur)/1000,(target[2]-accur)/1000]
 
 # for m in range(100,1000):
 # 	dist = euclidean_dist(target, [m*i for i in source])

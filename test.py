@@ -48,35 +48,55 @@ source = [.165,.527,.308]
 # 		if dist < minimum[0]:
 # 			minimum = (dist,m)
 
+def local_min(func,a=0,b=10):
+	def inner(*args):
+		low = a
+		up = b
+		mid_prev = low
+		for i in range(100):
+			error=0.001
+			step=0.001
+			mid = (low+up)/2
+
+			y = func(mid)
+			yp = func(mid+step)
+			yn = func(mid-step)
+			print(f'Step {i+1}')
+			print(f'Mid: {mid}')
+			print(f'Y: {y}')
+			print(f'Yp: {yp}')
+			print(f'Yn: {yn}')
+			print(f'Diff: {abs(mid_prev-mid)}\n')
+			diff_p = yp - y
+			diff_n = yn - y
+
+			if i==0 or abs(mid_prev-mid) > error:
+				if diff_p < diff_n:
+					low = mid
+				elif diff_p > diff_n:
+					up = mid 
+			else:
+				break
+
+			mid_prev = mid
+
+
+		return mid
+	return inner
+
+def parab(x):
+	return 1/x**2
 
 # print(minimum)
 
 # print(euclidean_dist(target, source))
-
-def local_min(a,b,error=0.001):
-	for i in range(100):
-		mid = (a+b)/2
-		print(f'Mid {i+1}: {mid}')
-		dist_mid = euclidean_dist([mid*i for i in source], target)
-		dist_mid_p = euclidean_dist([(mid+1)*i for i in source], target)
-		dist_mid_n = euclidean_dist([(mid-1)*i for i in source], target)
-		diff_p = dist_mid_p - dist_mid
-		diff_n = dist_mid_n - dist_mid
-		print(f'Diff Plus: {diff_p}')
-		print(f'Diff Neg: {diff_n}')
-		print(f'Euc Dist: {dist_mid}\n')
-		if abs(diff_p) > error and abs(diff_n) > error:
-			if diff_p < diff_n:
-				a = mid
-			elif diff_p > diff_n:
-				b = mid 
-		else:
-			break
 
 		# if diff_p < diff_n:
 		# 	a = mid
 		# elif diff_p > diff_n:
 		# 	b = mid 
 
+function = local_min(func=parab,a=-3,b=10)
 
-local_min(100,2500)
+x = function()
+print(x)

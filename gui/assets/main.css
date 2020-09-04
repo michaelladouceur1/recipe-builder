@@ -1,0 +1,40 @@
+body {
+    background-color: rgb(183, 220, 233);
+    align-items: center;
+}
+
+#main-page {
+    margin-right: 100px;
+    margin-left: 100px;
+    max-height: 100%;
+}
+
+#blank {
+    visibility: hidden;
+}
+
+#tabs-container {
+    cursor: default;
+}
+
+#ingredient-list-card {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.page-header {
+    padding-bottom: 20px;
+}
+
+.label {
+    font-size: small;
+}
+
+.ingredient-element {
+    margin-top: 10px;
+}
+
+.unit {
+    width: 100px;
+}
+

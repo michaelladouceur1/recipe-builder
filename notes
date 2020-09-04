@@ -1,0 +1,49 @@
+Ingredient Page
+
+- Name
+- Category
+- Serving Quantity
+- Serving Units
+- Calories
+- Protein
+- Carbs
+- Fat
+* Optional -----\
+- Suggested Store
+- Fiber
+- Sugars
+- Saturated Fats
+- Monounsaturated Fats
+- Polyunsaturated Fats
+- Omega3
+- Omega6
+- Vitamins A,C,D,E,K,B6,B12
+- Thiamin
+- Riboflavin
+- Niacin
+- Folate
+- Calcium
+- Iron
+- Magnesium
+- Phosphorus
+- Potassium
+
+Recipe Page
+
+- Name
+- Category
+- Serving Size
+- Serving Units
+- Ingredients
+- Directions
+- Picture
+- Health Rating
+- Popularity Rating
+- Tags
+- Pairings
+- Recipe as Ingredient
+
+Planner Page
+
+- Grocery List
+- 

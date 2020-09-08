@@ -1,11 +1,11 @@
 body {
-    background-color: rgb(183, 220, 233);
+    background-color: rgb(119, 119, 119);
     align-items: center;
 }
 
 #main-page {
-    margin-right: 100px;
-    margin-left: 100px;
+    margin-right: 200px;
+    margin-left: 200px;
     max-height: 100%;
 }
 
@@ -17,13 +17,32 @@ body {
     cursor: default;
 }
 
+#ingredient-menu {
+    height: 90vh;
+}
+
 #ingredient-list-card {
-    height: 500px;
-    overflow-y: scroll;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.main-row {
+    height: 90%;
+}
+
+.card-body {
+    height: 100%;
 }
 
 .page-header {
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px rgb(119, 119, 119) solid;
+}
+
+.page-control-menu {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px rgb(119, 119, 119) solid;
 }
 
 .label {

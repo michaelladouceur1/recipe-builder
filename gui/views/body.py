@@ -7,6 +7,7 @@ from dash.dependencies import Input, Output
 
 # Local Imports
 from gui.app import app
+from db.db import DB
 
 # navigation
 
@@ -153,37 +154,34 @@ tab2_content = dbc.Card(
     className="mt-3",
 )
 
+db = DB()
+ingredients = db.return_all_names('ingredients')
+ingredients_options = []
+for i in ingredients:
+    ingredients_options.append({'label': i, 'value': i})
+
 tab3_content = dbc.Card(
     dbc.CardBody(
         [
             dbc.Row(
                 [
                     dbc.Col(
-                        html.H2("Ingredients", className="card-text", style={'align-content': 'center'})
+                        html.H2('Ingredients')
                     ),
-                    dbc.Col(
-                        dbc.Button('Save Ingredient', color='primary', id='save-ingredient')
-                    )
                 ], className='page-header'
             ),
             dbc.Row(
                 [
-                    # LEFT COLUMN
                     dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardBody(
-                                    [
-                                        html.P(
-                                            'HELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLOHELLO<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HELLO'
-                                        )
-                                    ]
-                                ),
-                            ], id='ingredient-list-card'
-                        ), width=3
+                        dbc.Button('Save Ingredient', color='primary', id='save-ingredient')
                     ),
-
-                    # RIGHT COLUMN
+                    dbc.Col(
+                        dcc.Dropdown(id='ingredient-list-dropdown', options=ingredients_options)
+                    )
+                ], className='page-control-menu'
+            ),
+            dbc.Row(
+                [
                     dbc.Col(children=[
                         # ROW 1
                         dbc.Row(
@@ -270,7 +268,8 @@ tab3_content = dbc.Card(
                             ]
                         ),
                     ])
-                ]
+                ],
+                className='main-row'
             ),
 
             # BLANK

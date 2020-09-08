@@ -5,6 +5,7 @@ import pandas as pd
 
 # Local Imports
 from gui.app import app
+from db.db import DB
 
 
 # Set app interval
@@ -62,11 +63,39 @@ from gui.app import app
                 [State('ingredient-name', 'value'), State('ingredient-category', 'value'), State('ingredient-serving-quantity', 'value'),
                 State('ingredient-serving-unit', 'value'), State('ingredient-protein', 'value'), State('ingredient-fat', 'value'),
                 State('ingredient-carbohydrate', 'value'), State('ingredient-fiber', 'value'), State('ingredient-sugar', 'value')])
-def ingredient_menu_values(clicks, name, category, serving_quantity, serving_unit, protein, fat, carbs, fiber, sugar):
+def ingredient_to_db_callback(clicks, name, category, serving_quantity, serving_unit, protein, fat, carbs, fiber, sugar):
     if clicks is not None:
         ingredient = {'name': name, 'category': category, 'serving_quantity': serving_quantity,
                     'serving_unit': serving_unit, 'protein': protein, 'fat': fat,
                     'carbs': carbs, 'fiber': fiber, 'sugar': sugar}
-        ingredient_df = pd.DataFrame(ingredient, index=[0])
-        print(ingredient_df)
-        return f'{name}'
+        db = DB() 
+        db.ingredient_to_db(ingredient)
+        return None
+
+@app.callback([
+    Output('ingredient-name','value'),
+    Output('ingredient-category','value'),
+    Output('ingredient-serving-quantity','value'),
+    Output('ingredient-serving-unit','value'),
+    Output('ingredient-protein','value'),
+    Output('ingredient-fat','value'),
+    Output('ingredient-carbohydrate','value'),
+    Output('ingredient-fiber','value'),
+    Output('ingredient-sugar','value'),
+], [Input('ingredient-list-dropdown','value')])
+def db_to_ingredient_callback(value):
+    if value is not None:
+        db = DB() 
+        ingredient = db.query_name('ingredients',value)
+        name = ingredient['name']
+        category = ingredient['category']
+        serving_quantity = ingredient['serving_quantity']
+        serving_unit = ingredient['serving_unit']
+        protein = ingredient['protein']
+        fat = ingredient['fat']
+        carbs = ingredient['carbs']
+        fiber = ingredient['fiber']
+        sugar = ingredient['sugar']
+        return name,category,serving_quantity,serving_unit,protein,fat,carbs,fiber,sugar
+    else:
+        return '','','','','','','','',''

@@ -11,6 +11,7 @@ class DB:
         self.db = DATABASE_FILE_PATH
         self.conn = sqlite3.connect(self.db)
         self.c = self.conn.cursor()
+        self.create_ingredient_table()
 
     def create_ingredient_table(self):
         self.c.execute(f'''CREATE TABLE IF NOT EXISTS {INGREDIENTS_TABLE}
@@ -18,11 +19,18 @@ class DB:
                             category TEXT,
                             serving_quantity REAL,
                             serving_unit TEXT,
+                            preferred_brand TEXT,
+                            suggested_store TEXT,
                             protein REAL,
                             fat REAL,
                             carbs REAL,
                             fiber REAL,
-                            sugar REAL)''')
+                            sugar REAL,
+                            saturated_fat REAL,
+                            monounsaturated_fat REAL,
+                            polyunsaturated_fat REAL,
+                            omega_3_fat REAL,
+                            omega_6_fat REAL)''')
         self.conn.commit()
 
     def query_all_db(self,table):
@@ -47,20 +55,41 @@ class DB:
         return result
 
     def ingredient_to_db(self,data):
-        self.create_ingredient_table()
         self.c.execute(f'SELECT * FROM {INGREDIENTS_TABLE} WHERE (name=?)', (data['name'],))
         entry = self.c.fetchone()
         if entry is None:
-            self.c.execute(f'INSERT INTO {INGREDIENTS_TABLE} (name,category,serving_quantity,serving_unit,protein,fat,carbs,fiber,sugar) VALUES (?,?,?,?,?,?,?,?,?)',
+            self.c.execute(f'''INSERT INTO {INGREDIENTS_TABLE} (name,
+                                                                category,
+                                                                serving_quantity,
+                                                                serving_unit,
+                                                                preferred_brand,
+                                                                suggested_store,
+                                                                protein,
+                                                                fat,
+                                                                carbs,
+                                                                fiber,
+                                                                sugar,
+                                                                saturated_fat,
+                                                                monounsaturated_fat,
+                                                                polyunsaturated_fat,
+                                                                omega_3_fat,
+                                                                omega_6_fat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
                 (data['name'],
                 data['category'],
                 data['serving_quantity'],
                 data['serving_unit'],
+                data['preferred_brand'],
+                data['suggested_store'],
                 data['protein'],
                 data['fat'],
                 data['carbs'],
                 data['fiber'],
-                data['sugar']))
+                data['sugar'],
+                data['saturated_fat'],
+                data['monounsaturated_fat'],
+                data['polyunsaturated_fat'],
+                data['omega_3_fat'],
+                data['omega_6_fat'],))
             self.conn.commit()
             print('Ingredient added')
         else:

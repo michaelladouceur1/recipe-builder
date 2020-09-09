@@ -26,6 +26,10 @@ body {
     overflow-y: hidden;
 }
 
+.modal-card {
+    width: 20%;
+}
+
 .main-row {
     height: 90%;
 }

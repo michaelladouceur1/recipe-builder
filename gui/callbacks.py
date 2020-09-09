@@ -2,6 +2,7 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import pandas as pd
+import json
 
 # Local Imports
 from gui.app import app
@@ -58,30 +59,82 @@ from db.db import DB
 #         # server.save_security_local(symbols=dropdown_value, period=slider_value)
 #         return None
 
+# ingredient_to_db_callback
 @app.callback(Output('blank', 'children'),
                 [Input('save-ingredient', 'n_clicks')],
-                [State('ingredient-name', 'value'), State('ingredient-category', 'value'), State('ingredient-serving-quantity', 'value'),
-                State('ingredient-serving-unit', 'value'), State('ingredient-protein', 'value'), State('ingredient-fat', 'value'),
-                State('ingredient-carbohydrate', 'value'), State('ingredient-fiber', 'value'), State('ingredient-sugar', 'value')])
-def ingredient_to_db_callback(clicks, name, category, serving_quantity, serving_unit, protein, fat, carbs, fiber, sugar):
+                [State('ingredient-name', 'value'), 
+                State('ingredient-category', 'value'), 
+                State('ingredient-serving-quantity', 'value'),
+                State('ingredient-serving-unit', 'value'), 
+                State('preferred-brand', 'value'),
+                State('suggested-store', 'value'),
+                State('ingredient-protein', 'value'), 
+                State('ingredient-fat', 'value'),
+                State('ingredient-carbohydrate', 'value'), 
+                State('ingredient-fiber', 'value'), 
+                State('ingredient-sugar', 'value'),
+                State('ingredient-saturated-fat', 'value'),
+                State('ingredient-monounsaturated-fat', 'value'),
+                State('ingredient-polyunsaturated-fat', 'value'),
+                State('ingredient-omega-3-fat', 'value'),
+                State('ingredient-omega-6-fat', 'value'),])
+def ingredient_to_db_callback(clicks, 
+                                name, 
+                                category, 
+                                serving_quantity, 
+                                serving_unit, 
+                                brand,
+                                store,
+                                protein, 
+                                fat, 
+                                carbs, 
+                                fiber, 
+                                sugar,
+                                sat,
+                                mono,
+                                poly,
+                                omega3,
+                                omega6):
     if clicks is not None:
-        ingredient = {'name': name, 'category': category, 'serving_quantity': serving_quantity,
-                    'serving_unit': serving_unit, 'protein': protein, 'fat': fat,
-                    'carbs': carbs, 'fiber': fiber, 'sugar': sugar}
+        ingredient = {'name': name, 
+                        'category': category, 
+                        'serving_quantity': serving_quantity,
+                        'serving_unit': serving_unit, 
+                        'preferred_brand': brand,
+                        'suggested_store': json.dumps(store),
+                        'protein': protein, 
+                        'fat': fat,
+                        'carbs': carbs, 
+                        'fiber': fiber, 
+                        'sugar': sugar,
+                        'saturated_fat': sat,
+                        'monounsaturated_fat': mono,
+                        'polyunsaturated_fat': poly,
+                        'omega_3_fat': omega3,
+                        'omega_6_fat': omega6}
+        print(ingredient)
         db = DB() 
         db.ingredient_to_db(ingredient)
         return None
 
+# db_to_ingredient_callback
 @app.callback([
     Output('ingredient-name','value'),
     Output('ingredient-category','value'),
     Output('ingredient-serving-quantity','value'),
     Output('ingredient-serving-unit','value'),
+    Output('preferred-brand', 'value'),
+    Output('suggested-store', 'value'),
     Output('ingredient-protein','value'),
     Output('ingredient-fat','value'),
     Output('ingredient-carbohydrate','value'),
     Output('ingredient-fiber','value'),
     Output('ingredient-sugar','value'),
+    Output('ingredient-saturated-fat', 'value'),
+    Output('ingredient-monounsaturated-fat', 'value'),
+    Output('ingredient-polyunsaturated-fat', 'value'),
+    Output('ingredient-omega-3-fat', 'value'),
+    Output('ingredient-omega-6-fat', 'value')
 ], [Input('ingredient-list-dropdown','value')])
 def db_to_ingredient_callback(value):
     if value is not None:
@@ -91,11 +144,27 @@ def db_to_ingredient_callback(value):
         category = ingredient['category']
         serving_quantity = ingredient['serving_quantity']
         serving_unit = ingredient['serving_unit']
+        brand = ingredient['preferred_brand']
+        store = json.loads(ingredient['suggested_store'])
         protein = ingredient['protein']
         fat = ingredient['fat']
         carbs = ingredient['carbs']
         fiber = ingredient['fiber']
         sugar = ingredient['sugar']
-        return name,category,serving_quantity,serving_unit,protein,fat,carbs,fiber,sugar
+        sat = ingredient['saturated_fat']
+        mono = ingredient['monounsaturated_fat']
+        poly = ingredient['polyunsaturated_fat']
+        omega3 = ingredient['omega_3_fat']
+        omega6 = ingredient['omega_6_fat']
+        return name,category,serving_quantity,serving_unit,brand,store,protein,fat,carbs,fiber,sugar,sat,mono,poly,omega3,omega6
     else:
-        return '','','','','','','','',''
+        return '','','','','','','','','','','','','','','',''
+
+@app.callback(Output('fat-modal','is_open'),
+                [Input('open-fat-modal','n_clicks'),
+                Input('close-fat-modal','n_clicks')],
+                [State('fat-modal','is_open')])
+def fat_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open

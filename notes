@@ -10,6 +10,7 @@ Ingredient Page
 - Fat
 * Optional -----\
 - Suggested Store
+- Brand
 - Fiber
 - Sugars
 - Saturated Fats
@@ -36,6 +37,7 @@ Recipe Page
 - Serving Units
 - Ingredients
 - Directions
+- Estimated Cooking Time
 - Picture
 - Health Rating
 - Popularity Rating

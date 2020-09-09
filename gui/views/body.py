@@ -267,6 +267,9 @@ tab3_content = dbc.Card(
                                 ),
                             ]
                         ),
+                    ]),
+                    dbc.Col(children=[
+
                     ])
                 ],
                 className='main-row'

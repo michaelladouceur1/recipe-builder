@@ -31,7 +31,7 @@ tab2_content = dbc.Card(
             dbc.Row(
                 [
                     dbc.Col(
-                        html.H2("Recipes", className="card-text", style={'align-content': 'center'})
+                        html.H2("RECIPES", className="card-text", style={'align-content': 'center'})
                     ),
                     dbc.Col(
                         dbc.Button('Save Recipe', color='primary', id='save-recipe')
@@ -166,8 +166,8 @@ tab3_content = dbc.Card(
             dbc.Row(
                 [
                     dbc.Col(
-                        html.H2('Ingredients'),
-                        width=2
+                        html.H2('INGREDIENTS'),
+                        width=3
                     ),
                     dbc.Col(
                         dbc.ButtonGroup([
@@ -195,7 +195,7 @@ tab3_content = dbc.Card(
             # ),
             dbc.Row(
                 [
-                    # CARD COLUMN 1
+                    # BASIC COLUMN
                     dbc.Col(children=[
                         dbc.Card(children=[
                             dbc.CardHeader('Basic Details'),
@@ -254,14 +254,16 @@ tab3_content = dbc.Card(
                                 )
                             ])
                         ])
-                    ]),
+                    ], className='main-card'),
+
+                    # MACRO COLUMN
                     dbc.Col(children=[
                         dbc.Card(children=[
                             dbc.CardHeader('Macronutrient Details'),
                             dbc.CardBody(children=[
-                                dbc.Label('Protein Content', className='label'),
+                                dbc.Label('Protein Content (g)', className='label'),
                                 dbc.Input(id='ingredient-protein', type='number', placeholder='Protein...'),
-                                dbc.Label('Fat Content', className='label'),
+                                dbc.Label('Fat Content (g)', className='label'),
                                 dbc.Row(children=[
                                     dbc.Col([
                                         dbc.Input(id='ingredient-fat', type='number', placeholder='Fat...')
@@ -271,15 +273,15 @@ tab3_content = dbc.Card(
                                         dbc.Modal([
                                             dbc.ModalHeader('Fat Details'),
                                             dbc.ModalBody([
-                                                dbc.Label('Saturated Fat Content', className='label'),
+                                                dbc.Label('Saturated Fat Content (g)', className='label'),
                                                 dbc.Input(id='ingredient-saturated-fat', type='number', placeholder='Saturated Fat...'),
-                                                dbc.Label('Monounsaturated Fat Content', className='label'),
+                                                dbc.Label('Monounsaturated Fat Content (g)', className='label'),
                                                 dbc.Input(id='ingredient-monounsaturated-fat', type='number', placeholder='Monounsaturated Fat...'),
-                                                dbc.Label('Polyunsaturated Fat Content', className='label'),
+                                                dbc.Label('Polyunsaturated Fat Content (g)', className='label'),
                                                 dbc.Input(id='ingredient-polyunsaturated-fat', type='number', placeholder='Polyunsaturated Fat...'),
-                                                dbc.Label('Omega-3 Fat Content', className='label'),
+                                                dbc.Label('Omega-3 Fat Content (mg)', className='label'),
                                                 dbc.Input(id='ingredient-omega-3-fat', type='number', placeholder='Omega-3 Fat...'),
-                                                dbc.Label('Omega-6 Fat Content', className='label'),
+                                                dbc.Label('Omega-6 Fat Content (mg)', className='label'),
                                                 dbc.Input(id='ingredient-omega-6-fat', type='number', placeholder='Omega-6 Fat...')
                                             ]),
                                             dbc.ModalFooter(
@@ -291,18 +293,18 @@ tab3_content = dbc.Card(
                                         centered=True)
                                     ], width=3)
                                 ]),
-                                dbc.Label('Carbohydrate Content', className='label'),
+                                dbc.Label('Carbohydrate Content (g)', className='label'),
                                 dbc.Input(id='ingredient-carbohydrate', type='number', placeholder='Carbohydrate...'),
-                                dbc.Label('Fiber Content', className='label'),
+                                dbc.Label('Fiber Content (g)', className='label'),
                                 dbc.Input(id='ingredient-fiber', type='number', placeholder='Fiber...'),
-                                dbc.Label('Sugar Content', className='label'),
+                                dbc.Label('Sugar Content (g)', className='label'),
                                 dbc.Input(id='ingredient-sugar', type='number', placeholder='Sugar...')
                             ])
                         ])
-                    ]),
+                    ], className='main-card'),
                     dbc.Col(children=[
 
-                    ])
+                    ],width=6)
                 ],
                 className='main-row'
             ),

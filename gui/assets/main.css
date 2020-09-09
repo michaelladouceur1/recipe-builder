@@ -4,8 +4,8 @@ body {
 }
 
 #main-page {
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 100px;
+    margin-left: 100px;
     max-height: 100%;
 }
 
@@ -21,6 +21,14 @@ body {
     height: 100%;
     overflow-y: hidden;
 }
+
+/* .main-card {
+    height: 90%;
+}
+
+.card {
+    height: 100%;
+} */
 
 .menu-page {
     height: 90vh;

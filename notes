@@ -4,6 +4,7 @@ Ingredient Page
 - Category
 - Serving Quantity
 - Serving Units
+- Conversions
 - Calories
 - Protein
 - Carbs
@@ -45,6 +46,8 @@ Recipe Page
 - Pairings
 - Recipe as Ingredient
 - Actual ingredient weights
+- Source/URL
+- Optional Dressing/Toppings
 
 Planner Page
 

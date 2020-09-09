@@ -1,9 +1,13 @@
 import sqlite3
 import pandas as pd 
 import pprint
+import platform
 
-BASE_PATH = '/home/michael/Documents/Coding/recipe-builder/db'
-DATABASE_FILE_PATH = f'{BASE_PATH}/recipe-builder.db'
+if platform.system()=='Linux':
+    BASE_PATH = '/home/michael/Documents/Coding/recipe-builder/db/'
+elif platform.system()=='Windows':
+    BASE_PATH = 'C:\\Users\\mladouceur\\Python\\recipe-builder\\db\\'
+DATABASE_FILE_PATH = f'{BASE_PATH}recipe-builder.db'
 INGREDIENTS_TABLE = 'ingredients'
 
 class DB:

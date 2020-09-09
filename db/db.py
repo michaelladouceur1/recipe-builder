@@ -12,6 +12,7 @@ class DB:
         self.conn = sqlite3.connect(self.db)
         self.c = self.conn.cursor()
         self.create_ingredient_table()
+        self.ingredient_names = self.return_all_names(INGREDIENTS_TABLE)
 
     def create_ingredient_table(self):
         self.c.execute(f'''CREATE TABLE IF NOT EXISTS {INGREDIENTS_TABLE}

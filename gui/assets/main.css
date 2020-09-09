@@ -17,13 +17,13 @@ body {
     cursor: default;
 }
 
-#ingredient-menu {
-    height: 90vh;
-}
-
 #ingredient-list-card {
     height: 100%;
     overflow-y: hidden;
+}
+
+.menu-page {
+    height: 90vh;
 }
 
 .modal-card {

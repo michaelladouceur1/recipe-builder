@@ -22,7 +22,7 @@ tab1_content = dbc.Card(
             dbc.Button("Click here", color="success"),
         ]
     ),
-    className="mt-3",
+    className="mt-3 menu-page",
 )
 
 tab2_content = dbc.Card(
@@ -151,7 +151,7 @@ tab2_content = dbc.Card(
             ),
         ]
     ),
-    className="mt-3",
+    className="mt-3 menu-page",
 )
 
 db = DB()
@@ -301,44 +301,6 @@ tab3_content = dbc.Card(
                         ])
                     ]),
                     dbc.Col(children=[
-                        # ROW 2
-                        # dbc.Row(
-                        #     [
-                        #         dbc.Col([
-                        #             dbc.Label('Protein Content', className='label'),
-                        #             dbc.Input(id='ingredient-protein', type='number', placeholder='Protein...')
-                        #         ], className='ingredient-element'
-                        #         ),
-                        #         dbc.Col([
-                        #             dbc.Label('Fat Content', className='label'),
-                        #             dbc.Input(id='ingredient-fat', type='number', placeholder='Fat...')
-                        #         ], className='ingredient-element'
-                        #         ),
-                        #         dbc.Col([
-                        #             dbc.Label('Carbohydrate Content', className='label'),
-                        #             dbc.Input(id='ingredient-carbohydrate', type='number', placeholder='Carbohydrate...')
-                        #         ], className='ingredient-element'
-                        #         )
-                        #     ]
-                        # ),
-
-                        # ROW 3
-                        # dbc.Row(
-                        #     [
-                        #         dbc.Col([
-                        #             dbc.Label('Fiber Content', className='label'),
-                        #             dbc.Input(id='ingredient-fiber', type='number', placeholder='Fiber...')
-                        #         ], className='ingredient-element'
-                        #         ),
-                        #         dbc.Col([
-                        #             dbc.Label('Sugar Content', className='label'),
-                        #             dbc.Input(id='ingredient-sugar', type='number', placeholder='Sugar...')
-                        #         ], className='ingredient-element'
-                        #         ),
-                        #     ]
-                        # ),
-                    ]),
-                    dbc.Col(children=[
 
                     ])
                 ],
@@ -353,7 +315,7 @@ tab3_content = dbc.Card(
             )
         ]
     ),
-    className="mt-3",
+    className="mt-3 menu-page",
     id='ingredient-menu'
 )
 

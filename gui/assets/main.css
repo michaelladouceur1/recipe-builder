@@ -22,6 +22,10 @@ body {
     overflow-y: hidden;
 }
 
+#recipe-list-container {
+    padding: 0;
+}
+
 /* .main-card {
     height: 90%;
 }

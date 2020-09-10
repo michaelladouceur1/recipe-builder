@@ -24,11 +24,13 @@ Ingredient Page
 - Riboflavin
 - Niacin
 - Folate
+- Pantothenic Acid
 - Calcium
 - Iron
 - Magnesium
 - Phosphorus
 - Potassium
+- Zinc
 
 Recipe Page
 
@@ -36,6 +38,12 @@ Recipe Page
 - Category
 - Serving Size
 - Serving Units
+- Calories
+- Protein
+- Carbs
+- Fat
+- Fiber
+- Sugar
 - Ingredients
 - Directions
 - Estimated Cooking Time

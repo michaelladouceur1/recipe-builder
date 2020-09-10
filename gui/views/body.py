@@ -44,6 +44,38 @@ tab2_content = dbc.Card(
                     dbc.Col(
                         dbc.Card(
                             [
+                                dbc.CardHeader([
+                                    dbc.Row(children=[
+                                        dbc.Col(
+                                        dcc.Dropdown(
+                                        id='recipe-list-category-dropdown',
+                                        options=[
+                                            {'label': 'All', 'value': 'Meat'},
+                                            {'label': 'Breakfast', 'value': 'Vegetable'},
+                                            {'label': 'Lunch/Dinner', 'value': 'Fruit'},
+                                            {'label': 'Snack', 'value': 'Grain'},
+                                            {'label': 'Dessert', 'value': 'Fat/Oil'},
+                                            {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
+                                        ],
+                                        placeholder='Category...'
+                                    ),width=4
+                                    ),
+                                    dbc.Col(
+                                        dcc.Dropdown(
+                                        id='recipe-list-dropdown',
+                                        options=[
+                                            {'label': 'Meat', 'value': 'Meat'},
+                                            {'label': 'Vegetable', 'value': 'Vegetable'},
+                                            {'label': 'Fruit', 'value': 'Fruit'},
+                                            {'label': 'Grain', 'value': 'Grain'},
+                                            {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
+                                            {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
+                                        ],
+                                        placeholder='Search Recipe...'
+                                    )
+                                    )
+                                    ],no_gutters=True)
+                                ],id='recipe-list-container'),
                                 dbc.CardImg(src=app.get_asset_url("placeholder.png"), top=True, id='recipe-image'),
                                 dbc.CardBody(
                                     [
@@ -163,6 +195,7 @@ for i in ingredients:
 tab3_content = dbc.Card(
     dbc.CardBody(
         [
+            # NAV ROW
             dbc.Row(
                 [
                     dbc.Col(
@@ -178,24 +211,16 @@ tab3_content = dbc.Card(
                     ),
                     dbc.Col(),
                     dbc.Col(
-                        dcc.Dropdown(id='ingredient-list-dropdown', options=ingredients_options),
+                        dcc.Dropdown(id='ingredient-list-dropdown',placeholder='Search Ingredients...', options=ingredients_options),
                         width=3
                     )
                 ], className='page-header'
             ),
-            # dbc.Row(
-            #     [
-            #         dbc.Col(
-            #             dbc.Button(html.I(className='far fa-save'), color='primary', id='save-ingredient')
-            #         ),
-            #         dbc.Col(
-            #             dcc.Dropdown(id='ingredient-list-dropdown', options=ingredients_options)
-            #         )
-            #     ], className='page-control-menu'
-            # ),
+
+            # MAIN MENU ROW
             dbc.Row(
                 [
-                    # BASIC COLUMN
+                    # BASIC DETAILS COLUMN
                     dbc.Col(children=[
                         dbc.Card(children=[
                             dbc.CardHeader('Basic Details'),
@@ -226,11 +251,12 @@ tab3_content = dbc.Card(
                                             id='ingredient-serving-unit',
                                             options=[
                                                 {'label': 'Gram', 'value': 'Gram'},
-                                                {'label': 'Tbsp', 'value': 'Tbsp'},
-                                                {'label': 'Ounce', 'value': 'Ounce'},
-                                                {'label': 'Pound', 'value': 'Pound'},
+                                                {'label': 'Tbsp.', 'value': 'Tbsp.'},
+                                                {'label': 'Oz.', 'value': 'Oz.'},
+                                                {'label': 'Lbs.', 'value': 'Lbs.'},
                                                 {'label': 'Piece', 'value': 'Piece'},
-                                                {'label': 'MilliLiter', 'value': 'MilliLiter'}
+                                                {'label': 'mL', 'value': 'mL'},
+                                                {'label': 'cup', 'value': 'cup'}
                                             ],
                                             value='Gram'
                                         )
@@ -256,11 +282,13 @@ tab3_content = dbc.Card(
                         ])
                     ], className='main-card'),
 
-                    # MACRO COLUMN
+                    # MACRO DETAILS COLUMN
                     dbc.Col(children=[
                         dbc.Card(children=[
                             dbc.CardHeader('Macronutrient Details'),
                             dbc.CardBody(children=[
+                                dbc.Label('Calories', className='label'),
+                                dbc.Input(id='ingredient-calories', type='number', placeholder='Calories...'),
                                 dbc.Label('Protein Content (g)', className='label'),
                                 dbc.Input(id='ingredient-protein', type='number', placeholder='Protein...'),
                                 dbc.Label('Fat Content (g)', className='label'),
@@ -302,9 +330,59 @@ tab3_content = dbc.Card(
                             ])
                         ])
                     ], className='main-card'),
-                    dbc.Col(children=[
 
-                    ],width=6)
+                    # VITAMIN AND MINERAL DETAILS COLUMN
+                    dbc.Col(children=[
+                        dbc.Card(children=[
+                            dbc.CardHeader('Vitamin and Mineral Details'),
+                            dbc.CardBody(children=[
+                                dbc.Row([
+                                    dbc.Col(children=[
+                                        dbc.Label('Vitamin A (IU)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-a', type='number', placeholder='Vitamin A...'),
+                                        dbc.Label('Vitamin C (mg)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-c', type='number', placeholder='Vitamin C...'),
+                                        dbc.Label('Vitamin D (IU)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-d', type='number', placeholder='Vitamin D...'),
+                                        dbc.Label('Vitamin E (mg)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-e', type='number', placeholder='Vitamin E...'),
+                                        dbc.Label('Vitamin K (mcg)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-k', type='number', placeholder='Vitamin K...'),
+                                        dbc.Label('Thiamin (mg)', className='label'),
+                                        dbc.Input(id='ingredient-thiamin', type='number', placeholder='Thiamin...'),
+                                    ],width=4),
+                                    dbc.Col(children=[
+                                        dbc.Label('Riboflavin (mg)', className='label'),
+                                        dbc.Input(id='ingredient-riboflavin', type='number', placeholder='Riboflavin...'),
+                                        dbc.Label('Niacin (mg)', className='label'),
+                                        dbc.Input(id='ingredient-niacin', type='number', placeholder='Niacin...'),
+                                        dbc.Label('Vitamin B6 (mg)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-b6', type='number', placeholder='Vitamin B6...'),
+                                        dbc.Label('Folate (mcg)', className='label'),
+                                        dbc.Input(id='ingredient-folate', type='number', placeholder='Folate...'),
+                                        dbc.Label('Vitamin B12 (mcg)', className='label'),
+                                        dbc.Input(id='ingredient-vitamin-b12', type='number', placeholder='Vitamin B12...'),
+                                        dbc.Label('Pantothenic Acid (mg)', className='label'),
+                                        dbc.Input(id='ingredient-pantothenic-acid', type='number', placeholder='Pantothenic Acid...'),
+                                    ],width=4),
+                                    dbc.Col(children=[
+                                        dbc.Label('Calcium (mg)', className='label'),
+                                        dbc.Input(id='ingredient-calcium', type='number', placeholder='Calcium...'),
+                                        dbc.Label('Iron (mg)', className='label'),
+                                        dbc.Input(id='ingredient-iron', type='number', placeholder='Iron...'),
+                                        dbc.Label('Magnesium (mg)', className='label'),
+                                        dbc.Input(id='ingredient-magnesium', type='number', placeholder='Magnesium...'),
+                                        dbc.Label('Phosphorus (mg)', className='label'),
+                                        dbc.Input(id='ingredient-phosphorus', type='number', placeholder='Phosphorus...'),
+                                        dbc.Label('Potassium (mg)', className='label'),
+                                        dbc.Input(id='ingredient-potassium', type='number', placeholder='Potassium...'),
+                                        dbc.Label('Zinc (mg)', className='label'),
+                                        dbc.Input(id='ingredient-zinc', type='number', placeholder='Zinc...'),
+                                    ],width=4),
+                                ])
+                            ])
+                        ])
+                    ],width=4)
                 ],
                 className='main-row'
             ),

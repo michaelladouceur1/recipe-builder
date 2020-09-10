@@ -26,6 +26,7 @@ class DB:
                             serving_unit TEXT,
                             preferred_brand TEXT,
                             suggested_store TEXT,
+                            calories REAL,
                             protein REAL,
                             fat REAL,
                             carbs REAL,
@@ -35,7 +36,25 @@ class DB:
                             monounsaturated_fat REAL,
                             polyunsaturated_fat REAL,
                             omega_3_fat REAL,
-                            omega_6_fat REAL)''')
+                            omega_6_fat REAL,
+                            vitamin_a REAL,
+                            vitamin_c REAL,
+                            vitamin_d REAL,
+                            vitamin_e REAL,
+                            vitamin_k REAL,
+                            vitamin_b6 REAL,
+                            vitamin_b12 REAL,
+                            thiamin REAL,
+                            riboflavin REAL,
+                            niacin REAL,
+                            folate REAL,
+                            pantothenic_acid REAL,
+                            calcium REAL,
+                            iron REAL,
+                            magnesium REAL,
+                            phosphorus REAL,
+                            potassium REAL,
+                            zinc REAL)''')
         self.conn.commit()
 
     def query_all_db(self,table):
@@ -46,7 +65,7 @@ class DB:
         pprint.pprint(result)
         return result
 
-    def query_name(self,table,name):
+    def query_by_name(self,table,name):
         query = self.c.execute(f'SELECT * FROM {table} WHERE (name=?)', (name,))
         colname = [d[0] for d in query.description]
         result = [dict(zip(colname,r)) for r in query.fetchall()]
@@ -69,6 +88,7 @@ class DB:
                                                                 serving_unit,
                                                                 preferred_brand,
                                                                 suggested_store,
+                                                                calories,
                                                                 protein,
                                                                 fat,
                                                                 carbs,
@@ -78,13 +98,32 @@ class DB:
                                                                 monounsaturated_fat,
                                                                 polyunsaturated_fat,
                                                                 omega_3_fat,
-                                                                omega_6_fat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+                                                                omega_6_fat,
+                                                                vitamin_a,
+                                                                vitamin_c,
+                                                                vitamin_d,
+                                                                vitamin_e,
+                                                                vitamin_k,
+                                                                vitamin_b6,
+                                                                vitamin_b12,
+                                                                thiamin,
+                                                                riboflavin,
+                                                                niacin,
+                                                                folate,
+                                                                pantothenic_acid,
+                                                                calcium,
+                                                                iron,
+                                                                magnesium,
+                                                                phosphorus,
+                                                                potassium ,
+                                                                zinc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
                 (data['name'],
                 data['category'],
                 data['serving_quantity'],
                 data['serving_unit'],
                 data['preferred_brand'],
                 data['suggested_store'],
+                data['calories'],
                 data['protein'],
                 data['fat'],
                 data['carbs'],
@@ -94,7 +133,25 @@ class DB:
                 data['monounsaturated_fat'],
                 data['polyunsaturated_fat'],
                 data['omega_3_fat'],
-                data['omega_6_fat'],))
+                data['omega_6_fat'],
+                data['vitamin_a'],
+                data['vitamin_c'],
+                data['vitamin_d'],
+                data['vitamin_e'],
+                data['vitamin_k'],
+                data['vitamin_b6'],
+                data['vitamin_b12'],
+                data['thiamin'],
+                data['riboflavin'],
+                data['niacin'],
+                data['folate'],
+                data['pantothenic_acid'],
+                data['calcium'],
+                data['iron'],
+                data['magnesium'],
+                data['phosphorus'],
+                data['potassium'],
+                data['zinc'],))
             self.conn.commit()
             print('Ingredient added')
         else:

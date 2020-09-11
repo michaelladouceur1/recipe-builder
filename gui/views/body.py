@@ -80,12 +80,61 @@ tab2_content = dbc.Card(
                                 dbc.CardBody(
                                     [
                                         html.H4("Card title", className="card-title"),
-                                        html.P(
-                                            "Some quick example text to build on the card title and "
-                                            "make up the bulk of the card's content.",
-                                            className="card-text",
-                                        ),
-                                        dbc.Button("Go somewhere", color="primary"),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H6('')
+                                            ]),
+                                            dbc.Col([
+                                                html.P('Total')
+                                            ], width=3),
+                                            dbc.Col([
+                                                html.P('Each')
+                                            ], width=3)
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H6('Calories (kCal):')
+                                            ]),
+                                            dbc.Col([
+                                                html.H6('1312')
+                                            ], width=3),
+                                            dbc.Col([
+                                                html.H6('328')
+                                            ], width=3)
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H6('Protein (g):')
+                                            ]),
+                                            dbc.Col([
+                                                html.H6('84')
+                                            ], width=3),
+                                            dbc.Col([
+                                                html.H6('21')
+                                            ], width=3)
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H6('Fat (g):')
+                                            ]),
+                                            dbc.Col([
+                                                html.H6('48')
+                                            ], width=3),
+                                            dbc.Col([
+                                                html.H6('12')
+                                            ], width=3)
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col([
+                                                html.H6('Carbs (g):')
+                                            ]),
+                                            dbc.Col([
+                                                html.H6('136')
+                                            ], width=3),
+                                            dbc.Col([
+                                                html.H6('34')
+                                            ], width=3)
+                                        ])
                                     ]
                                 ),
                             ]

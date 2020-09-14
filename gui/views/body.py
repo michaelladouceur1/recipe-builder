@@ -237,9 +237,7 @@ tab2_content = dbc.Card(
 
 db = DB()
 ingredients = db.return_all_names('ingredients')
-ingredients_options = []
-for i in ingredients:
-    ingredients_options.append({'label': i, 'value': i})
+ingredients_options = [{'label': i, 'value': i} for i in ingredients]
 
 tab3_content = dbc.Card(
     dbc.CardBody(
@@ -289,27 +287,37 @@ tab3_content = dbc.Card(
                                     ],
                                     value='Meat'
                                 ),
+                                dbc.Label('Serving Quantity (g)', className='label'),
                                 dbc.Row([
                                     dbc.Col([
-                                        dbc.Label('Serving Quantity', className='label'),
-                                        dbc.Input(id='ingredient-serving-quantity', type='number', placeholder='Serving quantity...')
+                                        dbc.Input(id='ingredient-serving-gram', type='number', placeholder='Serving quantity...')
                                     ]),
                                     dbc.Col([
-                                        dbc.Label('Serving Unit', className='label'),
-                                        dcc.Dropdown(
-                                            id='ingredient-serving-unit',
-                                            options=[
-                                                {'label': 'Gram', 'value': 'Gram'},
-                                                {'label': 'Tbsp.', 'value': 'Tbsp.'},
-                                                {'label': 'Oz.', 'value': 'Oz.'},
-                                                {'label': 'Lbs.', 'value': 'Lbs.'},
-                                                {'label': 'Piece', 'value': 'Piece'},
-                                                {'label': 'mL', 'value': 'mL'},
-                                                {'label': 'cup', 'value': 'cup'}
-                                            ],
-                                            value='Gram'
-                                        )
-                                    ])
+                                        dbc.Button('...', id='open-serving-modal'),
+                                        dbc.Modal([
+                                            dbc.ModalHeader('Fat Details'),
+                                            dbc.ModalBody([
+                                                dbc.Label('Serving Quantity (Tbsp)', className='label'),
+                                                dbc.Input(id='ingredient-serving-tbsp', type='number', placeholder='Tbsp...'),
+                                                dbc.Label('Serving Quantity (Oz)', className='label'),
+                                                dbc.Input(id='ingredient-serving-oz', type='number', placeholder='Oz...'),
+                                                dbc.Label('Serving Quantity (Lbs)', className='label'),
+                                                dbc.Input(id='ingredient-serving-lbs', type='number', placeholder='Lbs...'),
+                                                dbc.Label('Serving Quantity (Piece)', className='label'),
+                                                dbc.Input(id='ingredient-serving-piece', type='number', placeholder='Piece...'),
+                                                dbc.Label('Serving Quantity (mL)', className='label'),
+                                                dbc.Input(id='ingredient-serving-ml', type='number', placeholder='mL...'),
+                                                dbc.Label('Serving Quantity (Cup)', className='label'),
+                                                dbc.Input(id='ingredient-serving-cup', type='number', placeholder='Cup...')
+                                            ]),
+                                            dbc.ModalFooter(
+                                                dbc.Button("Close", id="close-serving-modal", className="ml-auto")
+                                            ),
+                                        ], 
+                                        id='serving-modal', 
+                                        className='modal-card',
+                                        centered=True)
+                                    ], width=2)
                                 ]),
                                 dbc.Label('Preferred Brand', className='label'),
                                 dbc.Input(id='preferred-brand', placeholder='Brand...'),
@@ -368,7 +376,7 @@ tab3_content = dbc.Card(
                                         id='fat-modal', 
                                         className='modal-card',
                                         centered=True)
-                                    ], width=3)
+                                    ], width=2)
                                 ]),
                                 dbc.Label('Carbohydrate Content (g)', className='label'),
                                 dbc.Input(id='ingredient-carbohydrate', type='number', placeholder='Carbohydrate...'),

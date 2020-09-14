@@ -22,8 +22,13 @@ class DB:
         self.c.execute(f'''CREATE TABLE IF NOT EXISTS {INGREDIENTS_TABLE}
                             (name TEXT,
                             category TEXT,
-                            serving_quantity REAL,
-                            serving_unit TEXT,
+                            serving_gram REAL,
+                            serving_tbsp REAL,
+                            serving_oz REAL,
+                            serving_lbs REAL,
+                            serving_piece REAL,
+                            serving_ml REAL,
+                            serving_cup REAL,
                             preferred_brand TEXT,
                             suggested_store TEXT,
                             calories REAL,
@@ -78,14 +83,16 @@ class DB:
             result.append(i['name'])
         return result
 
-    def ingredient_to_db(self,data):
-        self.c.execute(f'SELECT * FROM {INGREDIENTS_TABLE} WHERE (name=?)', (data['name'],))
-        entry = self.c.fetchone()
-        if entry is None:
-            self.c.execute(f'''INSERT INTO {INGREDIENTS_TABLE} (name,
+    def insert(self,data):
+        self.c.execute(f'''INSERT INTO {INGREDIENTS_TABLE} (name,
                                                                 category,
-                                                                serving_quantity,
-                                                                serving_unit,
+                                                                serving_gram,
+                                                                serving_tbsp,
+                                                                serving_oz,
+                                                                serving_lbs,
+                                                                serving_piece,
+                                                                serving_ml,
+                                                                serving_cup,
                                                                 preferred_brand,
                                                                 suggested_store,
                                                                 calories,
@@ -116,11 +123,16 @@ class DB:
                                                                 magnesium,
                                                                 phosphorus,
                                                                 potassium ,
-                                                                zinc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+                                                                zinc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
                 (data['name'],
                 data['category'],
-                data['serving_quantity'],
-                data['serving_unit'],
+                data['serving_gram'],
+                data['serving_tbsp'],
+                data['serving_oz'],
+                data['serving_lbs'],
+                data['serving_piece'],
+                data['serving_ml'],
+                data['serving_cup'],
                 data['preferred_brand'],
                 data['suggested_store'],
                 data['calories'],
@@ -152,7 +164,24 @@ class DB:
                 data['phosphorus'],
                 data['potassium'],
                 data['zinc'],))
-            self.conn.commit()
-            print('Ingredient added')
-        else:
+        self.conn.commit()
+        print('Ingredient added')
+    
+    def update(self,data):
+        query_name = data['name']
+        self.c.execute(f'''DELETE FROM {INGREDIENTS_TABLE}
+                            WHERE (name=?)''', (data['name'],))
+        self.insert(data)
+        print('Ingredient updated')
+
+    def add_ingredient_to_db(self,data,mode):
+        self.c.execute(f'SELECT * FROM {INGREDIENTS_TABLE} WHERE (name=?)', (data['name'],))
+        entry = self.c.fetchone()
+        if entry is None and mode == 'save':
+            self.insert(data)
+        elif entry is not None and mode == 'edit':
+            self.update(data)
+        elif entry is not None and mode == 'save':
             print(f'Ingredient exists: {entry}')
+        elif entry is None and mode == 'edit':
+            print(f'Ingredient does not exist. Use "save" button.')

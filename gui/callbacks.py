@@ -1,4 +1,5 @@
 # Third Party Imports
+import dash
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import pandas as pd
@@ -59,13 +60,19 @@ from db.db import DB
 #         # server.save_security_local(symbols=dropdown_value, period=slider_value)
 #         return None
 
-# ingredient_to_db_callback
+# add_ingredient_to_db_callback
 @app.callback(Output('blank', 'children'),
-                [Input('save-ingredient', 'n_clicks')],
+                [Input('save-ingredient', 'n_clicks'),
+                Input('edit-ingredient', 'n_clicks')],
                 [State('ingredient-name', 'value'), 
                 State('ingredient-category', 'value'), 
-                State('ingredient-serving-quantity', 'value'),
-                State('ingredient-serving-unit', 'value'), 
+                State('ingredient-serving-gram', 'value'),
+                State('ingredient-serving-tbsp', 'value'),
+                State('ingredient-serving-oz', 'value'),
+                State('ingredient-serving-lbs', 'value'),
+                State('ingredient-serving-piece', 'value'),
+                State('ingredient-serving-ml', 'value'),
+                State('ingredient-serving-cup', 'value'),
                 State('preferred-brand', 'value'),
                 State('suggested-store', 'value'),
                 State('ingredient-calories', 'value'), 
@@ -97,11 +104,17 @@ from db.db import DB
                 State('ingredient-phosphorus', 'value'),
                 State('ingredient-potassium', 'value'),
                 State('ingredient-zinc', 'value'),])
-def ingredient_to_db_callback(clicks, 
+def add_ingredient_to_db_callback(save_clicks,
+                                edit_clicks,
                                 name, 
                                 category, 
-                                serving_quantity, 
-                                serving_unit, 
+                                serving_gram,
+                                serving_tbsp,
+                                serving_oz,
+                                serving_lbs,
+                                serving_piece,
+                                serving_ml,
+                                serving_cup,
                                 brand,
                                 store,
                                 calories,
@@ -133,53 +146,70 @@ def ingredient_to_db_callback(clicks,
                                 phosphorus,
                                 potassium ,
                                 zinc):
-    if clicks is not None:
-        ingredient = {'name': name, 
-                        'category': category, 
-                        'serving_quantity': serving_quantity,
-                        'serving_unit': serving_unit, 
-                        'preferred_brand': brand,
-                        'suggested_store': json.dumps(store),
-                        'calories': calories,
-                        'protein': protein, 
-                        'fat': fat,
-                        'carbs': carbs, 
-                        'fiber': fiber, 
-                        'sugar': sugar,
-                        'saturated_fat': sat,
-                        'monounsaturated_fat': mono,
-                        'polyunsaturated_fat': poly,
-                        'omega_3_fat': omega3,
-                        'omega_6_fat': omega6,
-                        'vitamin_a': vitamin_a,
-                        'vitamin_c': vitamin_c,
-                        'vitamin_d': vitamin_d,
-                        'vitamin_e': vitamin_e,
-                        'vitamin_k': vitamin_k,
-                        'thiamin': thiamin,
-                        'riboflavin': riboflavin,
-                        'niacin': niacin,
-                        'vitamin_b6': vitamin_b6,
-                        'folate': folate,
-                        'vitamin_b12': vitamin_b12,
-                        'pantothenic_acid': pantothenic_acid,
-                        'calcium': calcium,
-                        'iron': iron,
-                        'magnesium': magnesium,
-                        'phosphorus': phosphorus,
-                        'potassium' : potassium,
-                        'zinc': zinc}
-        print(ingredient)
+    
+    ingredient = {'name': name, 
+                    'category': category, 
+                    'serving_gram': serving_gram,
+                    'serving_tbsp': serving_tbsp,
+                    'serving_oz': serving_oz,
+                    'serving_lbs': serving_lbs,
+                    'serving_piece': serving_piece,
+                    'serving_ml': serving_ml,
+                    'serving_cup': serving_cup,
+                    'preferred_brand': brand,
+                    'suggested_store': json.dumps(store),
+                    'calories': calories,
+                    'protein': protein, 
+                    'fat': fat,
+                    'carbs': carbs, 
+                    'fiber': fiber, 
+                    'sugar': sugar,
+                    'saturated_fat': sat,
+                    'monounsaturated_fat': mono,
+                    'polyunsaturated_fat': poly,
+                    'omega_3_fat': omega3,
+                    'omega_6_fat': omega6,
+                    'vitamin_a': vitamin_a,
+                    'vitamin_c': vitamin_c,
+                    'vitamin_d': vitamin_d,
+                    'vitamin_e': vitamin_e,
+                    'vitamin_k': vitamin_k,
+                    'thiamin': thiamin,
+                    'riboflavin': riboflavin,
+                    'niacin': niacin,
+                    'vitamin_b6': vitamin_b6,
+                    'folate': folate,
+                    'vitamin_b12': vitamin_b12,
+                    'pantothenic_acid': pantothenic_acid,
+                    'calcium': calcium,
+                    'iron': iron,
+                    'magnesium': magnesium,
+                    'phosphorus': phosphorus,
+                    'potassium' : potassium,
+                    'zinc': zinc}
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    if 'save-ingredient' in changed_id:
         db = DB() 
-        db.ingredient_to_db(ingredient)
+        db.add_ingredient_to_db(ingredient,'save')
         return None
+    elif 'edit-ingredient' in changed_id:
+        db = DB()
+        db.add_ingredient_to_db(ingredient,'edit')
+        return None
+    else:
+        print('No buttons pressed')
 
 # db_to_ingredient_callback
 @app.callback([
     Output('ingredient-name','value'),
     Output('ingredient-category','value'),
-    Output('ingredient-serving-quantity','value'),
-    Output('ingredient-serving-unit','value'),
+    Output('ingredient-serving-gram','value'),
+    Output('ingredient-serving-tbsp', 'value'),
+    Output('ingredient-serving-oz', 'value'),
+    Output('ingredient-serving-lbs', 'value'),
+    Output('ingredient-serving-piece', 'value'),
+    Output('ingredient-serving-ml', 'value'),
+    Output('ingredient-serving-cup', 'value'),
     Output('preferred-brand', 'value'),
     Output('suggested-store', 'value'),
     Output('ingredient-calories','value'),
@@ -218,8 +248,13 @@ def db_to_ingredient_callback(value):
         ingredient = db.query_by_name('ingredients',value)
         name = ingredient['name']
         category = ingredient['category']
-        serving_quantity = ingredient['serving_quantity']
-        serving_unit = ingredient['serving_unit']
+        serving_gram = ingredient['serving_gram']
+        serving_tbsp = ingredient['serving_tbsp']
+        serving_oz = ingredient['serving_oz']
+        serving_lbs = ingredient['serving_lbs']
+        serving_piece = ingredient['serving_piece']
+        serving_ml = ingredient['serving_ml']
+        serving_cup = ingredient['serving_cup']
         brand = ingredient['preferred_brand']
         store = json.loads(ingredient['suggested_store'])
         calories = ingredient['calories']
@@ -251,7 +286,8 @@ def db_to_ingredient_callback(value):
         phosphorus = ingredient['phosphorus']
         potassium = ingredient['potassium']
         zinc = ingredient['zinc']
-        return name,category,serving_quantity,serving_unit,\
+        return name,category,serving_gram,serving_tbsp,serving_oz,\
+                serving_lbs,serving_piece,serving_ml,serving_cup,\
                 brand,store,calories,protein,fat,carbs,fiber,sugar,\
                 sat,mono,poly,omega3,omega6,vitamin_a,vitamin_c,\
                 vitamin_d,vitamin_e,vitamin_k,thiamin,\
@@ -259,7 +295,16 @@ def db_to_ingredient_callback(value):
                 vitamin_b12,pantothenic_acid,calcium,\
                 iron,magnesium,phosphorus,potassium ,zinc
     else:
-        return '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''
+        return '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''
+
+@app.callback(Output('serving-modal','is_open'),
+                [Input('open-serving-modal','n_clicks'),
+                Input('close-serving-modal','n_clicks')],
+                [State('serving-modal','is_open')])
+def serving_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
 
 @app.callback(Output('fat-modal','is_open'),
                 [Input('open-fat-modal','n_clicks'),

@@ -166,11 +166,15 @@ class DB:
                 data['zinc'],))
         self.conn.commit()
         print('Ingredient added')
+
+    def delete(self,name):
+        self.c.execute(f'''DELETE FROM {INGREDIENTS_TABLE}
+                            WHERE (name=?)''', (name,))
+        self.conn.commit()
+        print('Ingredient deleted')
     
     def update(self,data):
-        query_name = data['name']
-        self.c.execute(f'''DELETE FROM {INGREDIENTS_TABLE}
-                            WHERE (name=?)''', (data['name'],))
+        self.delete(data)
         self.insert(data)
         print('Ingredient updated')
 

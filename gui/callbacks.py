@@ -297,6 +297,17 @@ def db_to_ingredient_callback(value):
     else:
         return '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''
 
+# @app.callback(Output('blank', 'children'),
+#                 [Input('delete-ingredient','n_clicks')],
+#                 [State('ingredient-name','value')])
+# def delete_ingredient(n1,name):
+#     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+#     if 'delete-ingredient' in changed_id:
+#         print(f'Deleting ingredient {name}')
+#         db = DB()
+#         db.delete(name)
+#         return None
+
 @app.callback(Output('serving-modal','is_open'),
                 [Input('open-serving-modal','n_clicks'),
                 Input('close-serving-modal','n_clicks')],

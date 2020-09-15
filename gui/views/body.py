@@ -28,16 +28,25 @@ tab1_content = dbc.Card(
 tab2_content = dbc.Card(
     dbc.CardBody(
         [
+            # NAV ROW
             dbc.Row(
                 [
                     dbc.Col(
-                        html.H2("RECIPES", className="card-text", style={'align-content': 'center'})
+                        html.H2('RECIPES',id='recipe-header'),
+                        width=3
                     ),
+                    dbc.Col(),
                     dbc.Col(
-                        dbc.Button('Save Recipe', color='primary', id='save-recipe')
+                        dbc.ButtonGroup([
+                            dbc.Button(html.I(className='far fa-save'), color='secondary', id='save-recipe'),
+                            dbc.Button(html.I(className='fas fa-edit'), color='secondary', id='edit-recipe'),
+                            dbc.Button(html.I(className='far fa-trash-alt'), color='secondary', id='delete-recipe')
+                        ]), 
+                        width=2
                     )
                 ], className='page-header'
             ),
+
             dbc.Row(
                 [
                     # LEFT COLUMN
@@ -246,17 +255,18 @@ tab3_content = dbc.Card(
             dbc.Row(
                 [
                     dbc.Col(
-                        html.H2('INGREDIENTS'),
+                        html.H2('INGREDIENTS',id='ingredient-header'),
                         width=3
                     ),
+                    dbc.Col(),
                     dbc.Col(
                         dbc.ButtonGroup([
                             dbc.Button(html.I(className='far fa-save'), color='secondary', id='save-ingredient'),
                             dbc.Button(html.I(className='fas fa-edit'), color='secondary', id='edit-ingredient'),
-                            dbc.Button(html.I(className='fas fa-backspace'), color='secondary', id='clear-ingredient')
-                        ]), width=2
+                            dbc.Button(html.I(className='far fa-trash-alt'), color='secondary', id='delete-ingredient')
+                        ]), 
+                        width=2
                     ),
-                    dbc.Col(),
                     dbc.Col(
                         dcc.Dropdown(id='ingredient-list-dropdown',placeholder='Search Ingredients...', options=ingredients_options),
                         width=3

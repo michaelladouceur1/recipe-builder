@@ -34,9 +34,9 @@ Ingredient Page
 
 Recipe Page
 
-- Name
-- Category
-- Serving Size
+* Name
+* Category
+* Serving Size
 - Serving Units
 - Calories
 - Protein
@@ -47,14 +47,13 @@ Recipe Page
 - Ingredients
 - Directions
 - Estimated Cooking Time
-- Picture
-- Health Rating
-- Popularity Rating
-- Tags
-- Pairings
-- Recipe as Ingredient
-- Actual ingredient weights
-- Source/URL
+* Picture
+* Health Rating
+* Popularity Rating/Frequency
+* Tags
+* Pairings
+* Recipe as Ingredient
+* Source/URL
 - Optional Dressing/Toppings
 
 Planner Page

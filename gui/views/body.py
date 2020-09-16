@@ -152,91 +152,148 @@ tab2_content = dbc.Card(
 
                     # RIGHT COLUMN
                     dbc.Col(children=[
+                        dbc.Card(children=[
+                            dbc.CardHeader('Basic Details'),
+                            dbc.CardBody(children=[
+                                dbc.Row(children=[
+                                    dbc.Col(children=[
+                                        dbc.Label('Recipe Name', className='label'),
+                                        dbc.Input(id='recipe-name', placeholder='Name...'),
+                                        dbc.Label('Recipe Category', className='label'),
+                                        dcc.Dropdown(
+                                            id='recipe-category',
+                                            options=[
+                                                {'label': 'Meat', 'value': 'Meat'},
+                                                {'label': 'Vegetable', 'value': 'Vegetable'},
+                                                {'label': 'Fruit', 'value': 'Fruit'},
+                                                {'label': 'Grain', 'value': 'Grain'},
+                                                {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
+                                                {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
+                                            ],
+                                            value='Meat'
+                                        ),
+                                        dbc.Label('Serving Quantity', className='label'),
+                                        dbc.Row(children=[
+                                            dbc.Col(children=[
+                                                dbc.Input(id='recipe-serving-quantity', type='number', placeholder='Serving quantity...')
+                                            ]),
+                                            dbc.Col(children=[
+                                                dbc.Button('...', id='open-recipe-serving-modal')
+                                            ],width=3)
+                                        ])
+                                    ]),
+                                    dbc.Col(children=[
+                                        dbc.Label('Recipe Tags', className='label'),
+                                        dbc.Input(id='recipe-tags', placeholder='Tags...'),
+                                        dbc.Label('Source/URL', className='label'),
+                                        dbc.Input(id='recipe-source', placeholder='Source/URL...'),
+                                        dbc.Label('Recipe as Ingredient', className='label'),
+                                        dbc.Row(children=[
+                                            dbc.Col(children=[
+                                                dcc.Checklist(
+                                                    options=[
+                                                        {'label': 'Recipe as Ing.','value': True}
+                                                    ]
+                                                )
+                                            ]),
+                                            dbc.Col(children=[
+                                                dbc.Button(html.I(className='far fa-images'), id='upload-recipe-image')
+                                            ],width=4)
+                                        ])
+                                    ])
+                                ])
+                            ])
+                        ]),
                         # ROW 1
-                        dbc.Row(
-                            [
-                                dbc.Col([
-                                    dbc.Label('Recipe Name', className='label'),
-                                    dbc.Input(id='recipe-name', placeholder='Name...')
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Recipe Category', className='label'),
-                                    dcc.Dropdown(
-                                        id='recipe-category',
-                                        options=[
-                                            {'label': 'Meat', 'value': 'Meat'},
-                                            {'label': 'Vegetable', 'value': 'Vegetable'},
-                                            {'label': 'Fruit', 'value': 'Fruit'},
-                                            {'label': 'Grain', 'value': 'Grain'},
-                                            {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
-                                            {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
-                                        ],
-                                        value='Meat'
-                                    )
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Serving Quantity', className='label'),
-                                    dbc.Input(id='recipe-serving-quantity', type='number', placeholder='Serving quantity...')
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Serving Unit', className='label'),
-                                    dcc.Dropdown(
-                                        id='recipe-serving-unit',
-                                        options=[
-                                            {'label': 'Gram', 'value': 'Gram'},
-                                            {'label': 'Tbsp', 'value': 'Tbsp'},
-                                            {'label': 'Ounce', 'value': 'Ounce'},
-                                            {'label': 'Pound', 'value': 'Pound'},
-                                            {'label': 'Piece', 'value': 'Piece'},
-                                            {'label': 'MilliLiter', 'value': 'MilliLiter'}
-                                        ],
-                                        value='Gram'
-                                    )
-                                ], className='ingredient-element'
-                                )
-                            ]
-                        ),
+                        # dbc.Row(
+                        #     [
+                                # dbc.Col([
+                                #     dbc.Label('Recipe Name', className='label'),
+                                #     dbc.Input(id='recipe-name', placeholder='Name...')
+                                # ], className='ingredient-element'
+                                # ),
+                                # dbc.Col([
+                                #     dbc.Label('Recipe Category', className='label'),
+                                #     dcc.Dropdown(
+                                #         id='recipe-category',
+                                #         options=[
+                                #             {'label': 'Meat', 'value': 'Meat'},
+                                #             {'label': 'Vegetable', 'value': 'Vegetable'},
+                                #             {'label': 'Fruit', 'value': 'Fruit'},
+                                #             {'label': 'Grain', 'value': 'Grain'},
+                                #             {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
+                                #             {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
+                                #         ],
+                                #         value='Meat'
+                                #     )
+                                # ], className='ingredient-element'
+                                # ),
+                                # dbc.Col([
+                                #     dbc.Label('Serving Quantity', className='label'),
+                                #     dbc.Input(id='recipe-serving-quantity', type='number', placeholder='Serving quantity...')
+                                # ], className='ingredient-element'
+                                # ),
+                        #         dbc.Col([
+                        #             dbc.Label('Serving Unit', className='label'),
+                        #             dcc.Dropdown(
+                        #                 id='recipe-serving-unit',
+                        #                 options=[
+                        #                     {'label': 'Gram', 'value': 'Gram'},
+                        #                     {'label': 'Tbsp', 'value': 'Tbsp'},
+                        #                     {'label': 'Ounce', 'value': 'Ounce'},
+                        #                     {'label': 'Pound', 'value': 'Pound'},
+                        #                     {'label': 'Piece', 'value': 'Piece'},
+                        #                     {'label': 'MilliLiter', 'value': 'MilliLiter'}
+                        #                 ],
+                        #                 value='Gram'
+                        #             )
+                        #         ], className='ingredient-element'
+                        #         )
+                        #     ]
+                        # ),
 
                         # ROW 2
-                        dbc.Row(
-                            [
-                                dbc.Col([
-                                    dbc.Label('Protein Content', className='label'),
-                                    dbc.Input(id='recipe-protein', type='number', placeholder='Protein...')
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Fat Content', className='label'),
-                                    dbc.Input(id='recipe-fat', type='number', placeholder='Fat...')
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Carbohydrate Content', className='label'),
-                                    dbc.Input(id='recipe-carbohydrate', type='number', placeholder='Carbohydrate...')
-                                ], className='ingredient-element'
-                                )
-                            ]
-                        ),
+                        # dbc.Row(
+                        #     [
+                        #         dbc.Col([
+                        #             dbc.Label('Protein Content', className='label'),
+                        #             dbc.Input(id='recipe-protein', type='number', placeholder='Protein...')
+                        #         ], className='ingredient-element'
+                        #         ),
+                        #         dbc.Col([
+                        #             dbc.Label('Fat Content', className='label'),
+                        #             dbc.Input(id='recipe-fat', type='number', placeholder='Fat...')
+                        #         ], className='ingredient-element'
+                        #         ),
+                        #         dbc.Col([
+                        #             dbc.Label('Carbohydrate Content', className='label'),
+                        #             dbc.Input(id='recipe-carbohydrate', type='number', placeholder='Carbohydrate...')
+                        #         ], className='ingredient-element'
+                        #         )
+                        #     ]
+                        # ),
 
                         # ROW 3
-                        dbc.Row(
-                            [
-                                dbc.Col([
-                                    dbc.Label('Fiber Content', className='label'),
-                                    dbc.Input(id='recipe-fiber', type='number', placeholder='Fiber...')
-                                ], className='ingredient-element'
-                                ),
-                                dbc.Col([
-                                    dbc.Label('Sugar Content', className='label'),
-                                    dbc.Input(id='recipe-sugar', type='number', placeholder='Sugar...')
-                                ], className='ingredient-element'
-                                ),
-                            ]
-                        ),
-                    ])
+                        # dbc.Row(
+                        #     [
+                        #         dbc.Col([
+                        #             dbc.Label('Fiber Content', className='label'),
+                        #             dbc.Input(id='recipe-fiber', type='number', placeholder='Fiber...')
+                        #         ], className='ingredient-element'
+                        #         ),
+                        #         dbc.Col([
+                        #             dbc.Label('Sugar Content', className='label'),
+                        #             dbc.Input(id='recipe-sugar', type='number', placeholder='Sugar...')
+                        #         ], className='ingredient-element'
+                        #         ),
+                        #     ]
+                        # ),
+                    ]),
+                    dbc.Col(children=[
+                        dbc.Card(children=[
+                            dbc.CardHeader('Additional Details')
+                        ])
+                    ]),
                 ]
             ),
         ]

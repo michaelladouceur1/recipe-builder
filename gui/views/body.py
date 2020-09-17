@@ -274,7 +274,6 @@ tab2_content = dbc.Card(
                                     dbc.CardHeader(children=[
                                         dbc.Row(children=[
                                             dbc.Col('Ingredients'),
-                                            dbc.Col('Buttons')
                                         ]),
                                         dbc.Row(children=[
                                             dbc.Col(children=[
@@ -288,8 +287,7 @@ tab2_content = dbc.Card(
                                                         {'label': 'Grain', 'value': 'Grain'},
                                                         {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
                                                         {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
-                                                    ],
-                                                    value='Meat'
+                                                    ]
                                                 ),
                                             ]),
                                             dbc.Col(children=[
@@ -306,8 +304,14 @@ tab2_content = dbc.Card(
                                             ]),
                                             dbc.Col(children=[
                                                 dbc.Label('Ingredient Unit', className='label'),
-                                                dbc.Input(id='recipe-ingredient-unit', placeholder='Unit...'),
-                                            ])
+                                                dcc.Dropdown(
+                                                    id='recipe-ingredient-unit',
+                                                    options=[]
+                                                ),
+                                            ]),
+                                            dbc.Col(children=[
+                                                dbc.Button(html.I(className='far fa-plus-square'), color='secondary', id='add-ingredient-to-recipe', n_clicks=0)
+                                            ],width=1)
                                         ])
                                     ]),
                                     dbc.CardBody(children=[
@@ -329,44 +333,49 @@ tab2_content = dbc.Card(
                                                 {
                                                     'name': 'Calories',
                                                     'id': 'calories',
-                                                }
-                                            ],
-                                            data=[
+                                                },
                                                 {
-                                                    'ingredient': 'Broccoli',
-                                                    'quantity': 100,
-                                                    'unit': 'grams',
-                                                    'calories': 100
+                                                    'name': 'Protein',
+                                                    'id': 'protein',
+                                                },
+                                                {
+                                                    'name': 'Fat',
+                                                    'id': 'fat',
+                                                },
+                                                {
+                                                    'name': 'Carbs',
+                                                    'id': 'carbs',
                                                 }
                                             ],
-                                            row_deletable=True
+                                            data=[],
+                                            row_deletable=True,
+                                            style_cell={
+                                                'textOverflow': 'ellipsis',
+                                                'textAlign': 'center'
+                                            },
+                                            style_cell_conditional=[
+                                                {'if': {'column_id': 'quantity'},
+                                                'width': '10%'},
+                                                {'if': {'column_id': 'unit'},
+                                                'width': '10%'},
+                                                {'if': {'column_id': 'calories'},
+                                                'width': '10%'},
+                                                {'if': {'column_id': 'protein'},
+                                                'width': '10%'},
+                                                {'if': {'column_id': 'fat'},
+                                                'width': '10%'},
+                                                {'if': {'column_id': 'carbs'},
+                                                'width': '10%'}
+                                            ],
+                                            style_table={
+                                                'height': '30vh',
+                                                'overflowY': 'auto',
+                                                'padding': '20px'
+                                            },
+                                            style_as_list_view=True
                                         )
-                                        # dbc.Table([
-                                        #     html.Thead(html.Tr([html.Th('Ingredient'), html.Th('Quantity'), html.Th('Unit'), html.Th('Calories')])),
-                                        #     html.Tr([
-                                        #         html.Td([
-                                        #             dcc.Dropdown(
-                                        #                 id='ingredient-1',
-                                        #                 options=[
-                                        #                     {'label': 'Meat', 'value': 'Meat'},
-                                        #                     {'label': 'Vegetable', 'value': 'Vegetable'},
-                                        #                     {'label': 'Fruit', 'value': 'Fruit'},
-                                        #                     {'label': 'Grain', 'value': 'Grain'},
-                                        #                     {'label': 'Fat/Oil', 'value': 'Fat/Oil'},
-                                        #                     {'label': 'Miscellaneous', 'value': 'Miscellaneous'}
-                                        #                 ],
-                                        #                 value='Meat'
-                                        #             ),
-                                        #         ]), 
-                                        #         html.Td([
-                                        #             dbc.Input(id='ingredient-1-quantity', placeholder='Quantity...'),
-                                        #         ]), 
-                                        #         html.Td('grams'), 
-                                        #         html.Td('157')
-                                        #     ]),
-                                        # ])
                                     ])
-                                ])
+                                ], id='recipe-ingredient-card')
                             ]),
                         ])
                     ]),

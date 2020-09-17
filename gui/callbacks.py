@@ -10,57 +10,8 @@ from gui.app import app
 from db.db import DB
 
 
-# Set app interval
+# ADD-INGREDIENT-TO-DB-CALLBACK
 
-# @app.callback(Output('app-interval', 'interval'),
-#                 [Input('settings-local-store', 'data')])
-# def get_app_interval(data):
-#     if data is None:
-#         raise PreventUpdate
-#     return data['refresh_slide']*1000
-
-
-# # Data Input
-
-# @app.callback(Output('settings-local-store', 'data'),
-#                 [Input('refresh-slider', 'value')])
-# def update_app_interval(value):
-#     if value is None:
-#         raise PreventUpdate
-#     return {'refresh_slide': value}
-
-
-# # Data Loading
-
-# @app.callback(Output('refresh-slider', 'value'),
-#                 [Input('nav-bar', 'value')],
-#                 [State('settings-local-store', 'data')])
-# def load_settings_data(value, data):
-#     # print(data)
-#     if value == 'settings':
-#         return data['refresh_slide']
-
-
-# # Securities
-
-# @app.callback(Output('local-security-modal', 'is_open'),
-#                 [Input('local-security-modal-button', 'n_clicks')],
-#                 [State('local-security-modal', 'is_open')])
-# def open_local_security_modal(n_clicks, is_open):
-#     if n_clicks:
-#         return not is_open
-#     return is_open
-
-# @app.callback(Output('local-security-dropdown', 'value'),
-#                 [Input('local-security-button', 'n_clicks')],
-#                 [State('local-security-dropdown', 'value'),
-#                 State('local-security-slider', 'value')])
-# def save_security(n_clicks, dropdown_value, slider_value):
-#     if n_clicks:
-#         # server.save_security_local(symbols=dropdown_value, period=slider_value)
-#         return None
-
-# add_ingredient_to_db_callback
 @app.callback(Output('blank', 'children'),
                 [Input('save-ingredient', 'n_clicks'),
                 Input('edit-ingredient', 'n_clicks')],
@@ -199,7 +150,9 @@ def add_ingredient_to_db_callback(save_clicks,
     else:
         print('No buttons pressed')
 
-# db_to_ingredient_callback
+
+# DB-TO-INGREDIENT-CALLBACK
+
 @app.callback([
     Output('ingredient-name','value'),
     Output('ingredient-category','value'),
@@ -245,7 +198,7 @@ def add_ingredient_to_db_callback(save_clicks,
 def db_to_ingredient_callback(value):
     if value is not None:
         db = DB() 
-        ingredient = db.query_by_one_param('ingredients','name',value)
+        ingredient = db.query_by_one_param('ingredients','name',value)[0]
         name = ingredient['name']
         category = ingredient['category']
         serving_gram = ingredient['serving_gram']
@@ -297,17 +250,60 @@ def db_to_ingredient_callback(value):
     else:
         return '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''
 
+
+# RECIPE-INGREDIENT-OPTIONS-CALLBACK
+
 @app.callback(Output('recipe-ingredient','options'),
                 [Input('recipe-ingredient-category','value')])
 def recipe_ingredient_options(value):
     if value is not None:
         db = DB()
-        names = db.query_by_one_param('ingredients','category',value)
+        names = db.return_by_one_param('ingredients','category',value)
         return [{'label': i, 'value': i} for i in names]
     else:
         db = DB()
         names = db.return_all_names('ingredients')
         return [{'label': i, 'value': i} for i in names]
+
+
+# RECIPE-INGREDIENT-UNIT-OPTIONS-CALLBACK
+
+@app.callback(Output('recipe-ingredient-unit','options'),
+                [Input('recipe-ingredient','value')])
+def recipe_ingredient_unit_options(value):
+    if value is not None:
+        db = DB()
+        units = db.return_ingredient_units('ingredients','name',value)
+        return [{'label': i, 'value': i} for i in units]
+    else:
+        return [{'label': '', 'value': ''}]
+
+
+# ADD-INGREDIENT-TO-RECIPE-CALLBACK
+
+@app.callback(Output('recipe-ingredients-table','data'),
+                [Input('add-ingredient-to-recipe','n_clicks')],
+                [State('recipe-ingredients-table','data'),
+                State('recipe-ingredient','value'),
+                State('recipe-ingredient-quantity','value'),
+                State('recipe-ingredient-unit','value')])
+def add_ingredient_to_recipe(n_clicks,rows,name,quantity,unit):
+    if n_clicks > 0 and n_clicks is not None:
+        db = DB()
+        ingredient = db.query_by_one_param('ingredients','name',name)[0]
+        for i in ingredient.keys():
+            if i.find(unit) != -1:
+                db_quantity = float(ingredient[i])
+        rows.append({
+            'ingredient': name,
+            'quantity': quantity,
+            'unit': unit,
+            'calories': round(((float(quantity)/db_quantity)*float(ingredient['calories'])),2),
+            'protein': round(((float(quantity)/db_quantity)*float(ingredient['protein'])),2),
+            'fat': round(((float(quantity)/db_quantity)*float(ingredient['fat'])),2),
+            'carbs': round(((float(quantity)/db_quantity)*float(ingredient['carbs'])),2),
+        })
+    return rows
 
 # @app.callback(Output('blank', 'children'),
 #                 [Input('delete-ingredient','n_clicks')],
@@ -320,6 +316,9 @@ def recipe_ingredient_options(value):
 #         db.delete(name)
 #         return None
 
+
+# SERVING-MODAL-CALLBACK
+
 @app.callback(Output('serving-modal','is_open'),
                 [Input('open-serving-modal','n_clicks'),
                 Input('close-serving-modal','n_clicks')],
@@ -328,6 +327,9 @@ def serving_modal(n1, n2, is_open):
     if n1 or n2:
         return not is_open
     return is_open
+
+
+# FAT-MODAL-CALLBACK
 
 @app.callback(Output('fat-modal','is_open'),
                 [Input('open-fat-modal','n_clicks'),

@@ -63,25 +63,39 @@ class DB:
         self.conn.commit()
 
     def query_all_db(self,table):
-        # self.conn.row_factory = self.dict_factory
         query = self.c.execute(f'SELECT * FROM {table}')
         colname = [d[0] for d in query.description]
         result = [dict(zip(colname,r)) for r in query.fetchall()]
-        pprint.pprint(result)
         return result
 
     def query_by_one_param(self,table,param,value):
         query = self.c.execute(f'SELECT * FROM {table} WHERE ({param}=?)', (value,))
         colname = [d[0] for d in query.description]
         result = [dict(zip(colname,r)) for r in query.fetchall()]
-        print(result)
-        return result[0]
+        return result
 
     def return_all_names(self,table):
         query = self.query_all_db(table)
         result = []
         for i in query:
             result.append(i['name'])
+        return result
+
+    def return_by_one_param(self,table,param,value):
+        query = self.query_by_one_param(table,param,value)
+        result = []
+        for i in query:
+            result.append(i['name'])
+        return result
+
+    def return_ingredient_units(self,table,param,value):
+        query = self.query_by_one_param(table,param,value)
+        result = []
+        if len(query) > 0:
+            for i in query[0].keys():
+                if i.find('serving') != -1:
+                    if query[0][i] is not '':
+                        result.append(i.split('_')[-1])
         return result
 
     def insert(self,data):
@@ -175,7 +189,7 @@ class DB:
         print('Ingredient deleted')
     
     def update(self,data):
-        self.delete(data)
+        self.delete(data['name'])
         self.insert(data)
         print('Ingredient updated')
 

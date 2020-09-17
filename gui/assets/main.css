@@ -26,6 +26,11 @@ body {
     padding: 0;
 }
 
+#recipe-ingredient-card {
+    margin-top: 20px;
+    height: 45vh;
+}
+
 /* .main-card {
     height: 90%;
 }

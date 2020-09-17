@@ -245,7 +245,7 @@ def add_ingredient_to_db_callback(save_clicks,
 def db_to_ingredient_callback(value):
     if value is not None:
         db = DB() 
-        ingredient = db.query_by_name('ingredients',value)
+        ingredient = db.query_by_one_param('ingredients','name',value)
         name = ingredient['name']
         category = ingredient['category']
         serving_gram = ingredient['serving_gram']
@@ -296,6 +296,18 @@ def db_to_ingredient_callback(value):
                 iron,magnesium,phosphorus,potassium ,zinc
     else:
         return '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''
+
+@app.callback(Output('recipe-ingredient','options'),
+                [Input('recipe-ingredient-category','value')])
+def recipe_ingredient_options(value):
+    if value is not None:
+        db = DB()
+        names = db.query_by_one_param('ingredients','category',value)
+        return [{'label': i, 'value': i} for i in names]
+    else:
+        db = DB()
+        names = db.return_all_names('ingredients')
+        return [{'label': i, 'value': i} for i in names]
 
 # @app.callback(Output('blank', 'children'),
 #                 [Input('delete-ingredient','n_clicks')],

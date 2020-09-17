@@ -11,14 +11,8 @@ import pandas as pd
 from gui.app import app
 from db.db import DB
 
-# ingredient_df = pd.DataFrame(
-#     {
-#         'Ingredient': ['Broccoli'],
-#         'Quantity': [],
-#         'Unit': ['grams'],
-#         'Calories': ['100']
-#     }
-# )
+db = DB()
+ingredients_options = [{'label': i, 'value': i} for i in db.ingredient_names]
 
 # navigation
 
@@ -284,9 +278,9 @@ tab2_content = dbc.Card(
                                         ]),
                                         dbc.Row(children=[
                                             dbc.Col(children=[
-                                                dbc.Label('Recipe Ingredient', className='label'),
+                                                dbc.Label('Ingredient Category', className='label'),
                                                 dcc.Dropdown(
-                                                    id='ingredient-1',
+                                                    id='recipe-ingredient-category',
                                                     options=[
                                                         {'label': 'Meat', 'value': 'Meat'},
                                                         {'label': 'Vegetable', 'value': 'Vegetable'},
@@ -299,12 +293,20 @@ tab2_content = dbc.Card(
                                                 ),
                                             ]),
                                             dbc.Col(children=[
-                                                dbc.Label('Recipe Ingredient Quantity', className='label'),
-                                                dbc.Input(id='ingredient-1-quantity', placeholder='Quantity...'),
+                                                dbc.Label('Ingredient', className='label'),
+                                                dcc.Dropdown(
+                                                    id='recipe-ingredient',
+                                                    options=[],
+                                                    value='Meat'
+                                                ),
                                             ]),
                                             dbc.Col(children=[
-                                                dbc.Label('Recipe Ingredient Unit', className='label'),
-                                                dbc.Input(id='ingredient-1-unit', placeholder='Quantity...'),
+                                                dbc.Label('Ingredient Quantity', className='label'),
+                                                dbc.Input(id='recipe-ingredient-quantity', placeholder='Quantity...'),
+                                            ]),
+                                            dbc.Col(children=[
+                                                dbc.Label('Ingredient Unit', className='label'),
+                                                dbc.Input(id='recipe-ingredient-unit', placeholder='Unit...'),
                                             ])
                                         ])
                                     ]),
@@ -366,11 +368,6 @@ tab2_content = dbc.Card(
                                     ])
                                 ])
                             ]),
-                            dbc.Col(children=[
-                                dbc.Card(children=[
-                                    dbc.CardHeader('Steps'),
-                                ])
-                            ], width=4),
                         ])
                     ]),
                 ]
@@ -379,10 +376,6 @@ tab2_content = dbc.Card(
     ),
     className="mt-3 menu-page",
 )
-
-db = DB()
-ingredients = db.return_all_names('ingredients')
-ingredients_options = [{'label': i, 'value': i} for i in ingredients]
 
 tab3_content = dbc.Card(
     dbc.CardBody(

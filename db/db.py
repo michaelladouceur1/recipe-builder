@@ -70,10 +70,11 @@ class DB:
         pprint.pprint(result)
         return result
 
-    def query_by_name(self,table,name):
-        query = self.c.execute(f'SELECT * FROM {table} WHERE (name=?)', (name,))
+    def query_by_one_param(self,table,param,value):
+        query = self.c.execute(f'SELECT * FROM {table} WHERE ({param}=?)', (value,))
         colname = [d[0] for d in query.description]
         result = [dict(zip(colname,r)) for r in query.fetchall()]
+        print(result)
         return result[0]
 
     def return_all_names(self,table):

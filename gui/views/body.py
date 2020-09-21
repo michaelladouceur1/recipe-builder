@@ -110,10 +110,10 @@ tab2_content = dbc.Card(
                                                 html.H6('Calories (kCal):')
                                             ]),
                                             dbc.Col([
-                                                html.H6('1312')
+                                                html.H6('1312', id='recipe-total-calories')
                                             ], width=3),
                                             dbc.Col([
-                                                html.H6('328')
+                                                html.H6('328', id='recipe-serving-calories')
                                             ], width=3)
                                         ]),
                                         dbc.Row([
@@ -121,10 +121,10 @@ tab2_content = dbc.Card(
                                                 html.H6('Protein (g):')
                                             ]),
                                             dbc.Col([
-                                                html.H6('84')
+                                                html.H6('84', id='recipe-total-protein')
                                             ], width=3),
                                             dbc.Col([
-                                                html.H6('21')
+                                                html.H6('21', id='recipe-serving-protein')
                                             ], width=3)
                                         ]),
                                         dbc.Row([
@@ -132,10 +132,10 @@ tab2_content = dbc.Card(
                                                 html.H6('Fat (g):')
                                             ]),
                                             dbc.Col([
-                                                html.H6('48')
+                                                html.H6('48', id='recipe-total-fat')
                                             ], width=3),
                                             dbc.Col([
-                                                html.H6('12')
+                                                html.H6('12', id='recipe-serving-fat')
                                             ], width=3)
                                         ]),
                                         dbc.Row([
@@ -143,10 +143,10 @@ tab2_content = dbc.Card(
                                                 html.H6('Carbs (g):')
                                             ]),
                                             dbc.Col([
-                                                html.H6('136')
+                                                html.H6('136', id='recipe-total-carbs')
                                             ], width=3),
                                             dbc.Col([
-                                                html.H6('34')
+                                                html.H6('34', id='recipe-serving-carbs')
                                             ], width=3)
                                         ])
                                     ]
@@ -181,15 +181,26 @@ tab2_content = dbc.Card(
                                                     ],
                                                     value='Meat'
                                                 ),
-                                                dbc.Label('Serving Quantity', className='label'),
-                                                dbc.Row(children=[
-                                                    dbc.Col(children=[
-                                                        dbc.Input(id='recipe-serving-quantity', type='number', placeholder='Serving quantity...')
-                                                    ]),
-                                                    dbc.Col(children=[
-                                                        dbc.Button('...', id='open-recipe-serving-modal')
-                                                    ],width=3)
-                                                ])
+                                                dbc.Label('Servings', className='label'),
+                                                dcc.Slider(
+                                                    id='recipe-servings-slider',
+                                                    min=1,
+                                                    max=10,
+                                                    value=4,
+                                                    marks={
+                                                        1: '1',
+                                                        2: '2',
+                                                        3: '3',
+                                                        4: '4',
+                                                        5: '5',
+                                                        6: '6',
+                                                        7: '7',
+                                                        8: '8',
+                                                        9: '9',
+                                                        10: '10',
+                                                    },
+                                                    included=False
+                                                )
                                             ]),
                                             dbc.Col(children=[
                                                 dbc.Label('Recipe Tags', className='label'),

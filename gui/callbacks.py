@@ -305,6 +305,45 @@ def add_ingredient_to_recipe(n_clicks,rows,name,quantity,unit):
         })
     return rows
 
+@app.callback([Output('recipe-total-calories','children'),
+                Output('recipe-serving-calories','children'),
+                Output('recipe-total-protein','children'),
+                Output('recipe-serving-protein','children'),
+                Output('recipe-total-fat','children'),
+                Output('recipe-serving-fat','children'),
+                Output('recipe-total-carbs','children'),
+                Output('recipe-serving-carbs','children')],
+                [Input('recipe-ingredients-table','data'),
+                Input('recipe-servings-slider','value')],
+                [State('recipe-ingredients-table','data'),
+                State('recipe-servings-slider','value')])
+def recipe_data_sum(input_data,input_servings,state_data,servings):
+    data = {
+        'total-calories': 0,
+        'serving-calories': 0,
+        'total-protein': 0,
+        'serving-protein': 0,
+        'total-fat': 0,
+        'serving-fat': 0,
+        'total-carbs': 0,
+        'serving-carbs': 0
+    }
+    if input_data is not None or input_servings is not None:
+        for i in state_data:
+            data['total-calories'] += i['calories']
+            data['total-protein'] += i['protein']
+            data['total-fat'] += i['fat']
+            data['total-carbs'] += i['carbs']
+    data['serving-calories'] = data['total-calories']/servings
+    data['serving-protein'] = data['total-protein']/servings
+    data['serving-fat'] = data['total-fat']/servings
+    data['serving-carbs'] = data['total-carbs']/servings
+
+    return round(data['total-calories'],1),round(data['serving-calories'],1),\
+            round(data['total-protein'],1),round(data['serving-protein'],1),\
+            round(data['total-fat'],1),round(data['serving-fat'],1),\
+            round(data['total-carbs'],1),round(data['serving-carbs'],1)
+
 # @app.callback(Output('blank', 'children'),
 #                 [Input('delete-ingredient','n_clicks')],
 #                 [State('ingredient-name','value')])
